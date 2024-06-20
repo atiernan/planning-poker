@@ -1,0 +1,42 @@
+{
+  "name": "planning-poker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.0",
+    "@pinia/nuxt": "^0.5.1",
+    "@radix-icons/vue": "^1.0.0",
+    "@vee-validate/zod": "^4.13.1",
+    "@vueuse/core": "^10.11.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "jira.js": "^4.0.0",
+    "lucide-vue-next": "^0.395.0",
+    "nuxt": "^3.12.1",
+    "radix-vue": "^1.8.4",
+    "shadcn-nuxt": "^0.10.4",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7",
+    "vee-validate": "^4.13.1",
+    "vue": "^3.4.27",
+    "vue-router": "^4.3.3",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
+    "sass": "^1.77.5",
+    "typescript": "^5.4.5"
+  }
+}
