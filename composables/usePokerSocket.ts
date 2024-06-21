@@ -17,7 +17,6 @@ export function usePokerSocket(roomId: string) {
     });
     
     onMessage('room-update', (updatedRoom: Room) => {
-        console.log('Got room update message');
         room.value = updatedRoom;
     });
     onMessage('user-id', (newUserId: string) => userId.value = newUserId);
