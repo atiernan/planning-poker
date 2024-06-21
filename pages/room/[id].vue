@@ -39,6 +39,12 @@ const showSettings = ref(false);
 
 const playingUsers = computed(() => room.value?.users.filter((u) => u.type === UserType.Player) ?? []);
 const observingUsers = computed(() => room.value?.users.filter((u) => u.type === UserType.Observer) ?? []);
+const allPlayersEstimated = computed(() => {
+    const estimatedPlayers = playingUsers.value
+        .map((user) => room.value?.rounds[room.value.currentRound].estimates[user.id]?.estimate !== undefined)
+        .filter(Boolean);
+    return estimatedPlayers.length === playingUsers.value.length && playingUsers.value.length > 0;
+});
 
 onMounted(() => {
     if (name.value !== '') {
@@ -135,8 +141,8 @@ function saveSettings({ admin, possibleEstimates, mode }: { admin: string, possi
             />
         </div>
 
-        <div v-if="isAdmin" class="controls">
-            <Button :disabled="room.reveal" @click="reveal">
+        <div v-if="isAdmin" class="controls mb-5">
+            <Button :class="{highlight: !room.reveal && allPlayersEstimated}" :disabled="room.reveal" @click="reveal">
                 <Eye class="mr-2" /> Reveal
             </Button>
             <Button @click="showSettings = true">
@@ -271,7 +277,6 @@ function saveSettings({ admin, possibleEstimates, mode }: { admin: string, possi
     display: flex;
     justify-content: center;
     gap: 5rem;
-    padding: 2rem 0rem;
 
     .highlight {
         animation: highlight ease-in-out 1s infinite alternate;
