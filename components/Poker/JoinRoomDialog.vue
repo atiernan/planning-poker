@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { UserType } from '~/server/Poker/UserType';
-
-const newName = ref('');
-const type = ref<UserType>(UserType.Player);
-const emit = defineEmits(['join']);
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
 
+const emit = defineEmits(['join']);
 const formSchema = toTypedSchema(z.object({
     name: z
         .string()
