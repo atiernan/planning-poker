@@ -1,7 +1,10 @@
-name: Deploy to Production
+name: Build
 on:
   push:
-    branches: ['main']
+    branches:
+      - 'main'
+    tags:
+      - 'v*'
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
