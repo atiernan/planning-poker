@@ -5,7 +5,8 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
     "@nuxtjs/tailwindcss",
-    "shadcn-nuxt"
+    "shadcn-nuxt",
+    "@nuxt/test-utils/module",
   ],
   routeRules: {
     '/room/**': { ssr: false },
