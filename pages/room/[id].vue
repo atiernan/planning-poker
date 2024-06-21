@@ -141,6 +141,7 @@ function saveSettings({ admin, possibleEstimates, mode }: { admin: string, possi
             />
         </div>
 
+        <p v-if="room.reveal && !isAdmin" class="mb-5 text-center text-lg">Waiting for next round...</p>
         <div v-if="isAdmin" class="controls mb-5">
             <Button :class="{highlight: !room.reveal && allPlayersEstimated}" :disabled="room.reveal" @click="reveal">
                 <Eye class="mr-2" /> Reveal
