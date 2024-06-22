@@ -39,12 +39,16 @@ export class SetRoom extends PokerMessageHandler {
                 title: '',
                 state: RoundState.InProgress,
                 storyPoints: undefined,
+                externalLinks: {},
             }],
             possibleEstimates: ['0', '½', '1', '2', '3', '5', '8', '13', '20', '40', '100', '☕'],
             reveal: false,
             admin: adminId,
-            mode: Mode.Simple,
+            mode: Mode.Advanced,
             currentRound: 0,
+            externalLinks: {
+                jira: process.env.JIRA_HOST !== undefined,
+            }
         }
     }
 }

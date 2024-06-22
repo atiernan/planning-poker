@@ -7,6 +7,7 @@ import { NextRound } from '../Poker/MessageHandler/NextRound';
 import { ClearEstimate } from '../Poker/MessageHandler/ClearEstimate';
 import { UpdateRoomSettings } from '../Poker/MessageHandler/UpdateRoomSettings';
 import { UpdateUserSettings } from '../Poker/MessageHandler/UpdateUserSettings';
+import { AddExternalLink } from '../Poker/MessageHandler/AddExternalLink';
 
 let server: Server | null = null;
 const rooms: Record<string, Room> = {};
@@ -27,6 +28,7 @@ export default defineEventHandler((event) => {
       ClearEstimate,
       UpdateRoomSettings,
       UpdateUserSettings,
+      AddExternalLink,
     ].map((Handler) => new Handler(socket, server as Server, rooms));
 
     socket.on('disconnecting', () => {

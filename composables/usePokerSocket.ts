@@ -2,6 +2,7 @@ import type { Room } from "~/server/Poker/Room";
 import { useSocket } from "./useSocket";
 import type { Mode } from "~/server/Poker/Mode";
 import type { UserType } from "~/server/Poker/UserType";
+import type { SupportedLinks } from "~/server/Poker/SupportedLinks";
 
 export function usePokerSocket(roomId: string) {
     const room = ref<null | Room>(null);
@@ -65,6 +66,10 @@ export function usePokerSocket(roomId: string) {
     function updateUserSettings(name: string, type: UserType) {
         sendMessage('update-user-settings', { name, type });
     }
+
+    function addExternalLink(round: number, link: SupportedLinks) {
+        sendMessage('add-external-link', { roomId, round, link });
+    }
     
     return {
         joinRoom,
@@ -77,6 +82,7 @@ export function usePokerSocket(roomId: string) {
         connected,
         updateRoomSettings,
         setTicket,
-        updateUserSettings
+        updateUserSettings,
+        addExternalLink,
     };
 }

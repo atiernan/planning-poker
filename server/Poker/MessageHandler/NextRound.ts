@@ -26,6 +26,7 @@ export class NextRound extends PokerMessageHandler {
               title: '',
               state: RoundState.InProgress,
               storyPoints: undefined,
+              externalLinks: {},
             });
             this.rooms[roomId].currentRound = this.rooms[roomId].rounds.length - 1;
           }

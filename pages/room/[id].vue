@@ -34,6 +34,7 @@ const {
     connected,
     updateRoomSettings,
     updateUserSettings,
+    addExternalLink,
 } = usePokerSocket(id);
 const showSettings = ref(false);
 
@@ -105,7 +106,7 @@ function saveSettings({ admin, possibleEstimates, mode }: { admin: string, possi
         :open="connected && name === ''"
         @join="join"
     />
-    <div class="room" v-if="room !== null">
+    <div class="room pt-2" v-if="room !== null">
         <div :class="['game-state', { 'mode-simple': room.mode === Mode.Simple, 'has-observers': observingUsers.length > 0 }]">
             <div v-if="observingUsers.length > 0" class="user-lists">
                 <h2>Observers</h2>
@@ -121,7 +122,7 @@ function saveSettings({ admin, possibleEstimates, mode }: { admin: string, possi
                     <p v-if="playingUsers.length === 0">No players yet</p>
                     <li v-for="user of playingUsers" :key="user.id" class="estimation">
                         <Crown v-if="user.id === room.admin" class="mb-2"/>
-                        <PokerCard
+                        <poker-card
                             :value="getUserEstimate(user.id)"
                             :picked="getUserEstimate(user.id) !== ''"
                             :revealed="room.reveal"
@@ -133,16 +134,18 @@ function saveSettings({ admin, possibleEstimates, mode }: { admin: string, possi
                     </li>
                 </ul>
             </div>
-            <poker-rounds
+            <poker-rounds-list
                 v-if="room.mode === Mode.Advanced"
                 :is-admin="isAdmin"
                 :current-round="room.currentRound"
                 :rounds="room.rounds"
+                :supported-links="room.externalLinks"
+                @add-external-link="addExternalLink"
             />
         </div>
 
-        <p v-if="room.reveal && !isAdmin" class="mb-5 text-center text-lg">Waiting for next round...</p>
-        <div v-if="isAdmin" class="controls mb-5">
+        <p v-if="room.reveal && !isAdmin" class="my-5 text-center text-lg">Waiting for next round...</p>
+        <div v-if="isAdmin" class="controls my-5">
             <Button :class="{highlight: !room.reveal && allPlayersEstimated}" :disabled="room.reveal" @click="reveal">
                 <Eye class="mr-2" /> Reveal
             </Button>
@@ -156,7 +159,7 @@ function saveSettings({ admin, possibleEstimates, mode }: { admin: string, possi
 
         <ul v-if="userType === UserType.Player" class="possible-estimates">
             <li v-for="estimate of room.possibleEstimates" :key="estimate">
-                <PokerCard
+                <poker-card
                     @click="selectEstimate(estimate)"
                     :value="estimate"
                     size="md"
@@ -176,18 +179,18 @@ function saveSettings({ admin, possibleEstimates, mode }: { admin: string, possi
 .room {
     display: flex;
     flex-direction: column;
-    padding-top: 2rem;
     box-sizing: border-box;
     flex-grow: 1;
+    max-height: calc(100% - 52px);
 }
 .game-state {
     flex-grow: 1;
     display: grid;
-    grid-template-columns: 75% 25%;
+    grid-template-columns: 60% 40%;
     overflow-y: scroll;
 
     &.has-observers:not(.mode-simple) {
-        grid-template-columns: 10% 65% 25%;
+        grid-template-columns: 10% 50% 40%;
     }
     &.has-observers.mode-simple {
         grid-template-columns: 10% 90%;
@@ -210,7 +213,6 @@ function saveSettings({ admin, possibleEstimates, mode }: { admin: string, possi
         display: flex;
         justify-content: space-evenly;
         flex-wrap: wrap;
-        column-gap: 5rem;
         padding: 0rem 2rem;
 
         li {
@@ -242,7 +244,8 @@ function saveSettings({ admin, possibleEstimates, mode }: { admin: string, possi
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     gap: 2rem;
-    padding: 5rem;
+    padding: 2rem;
+    padding-top:3rem;
     background: #e2e2e2;
     list-style: none;
     & li {
