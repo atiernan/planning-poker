@@ -3,6 +3,7 @@ import { useSocket } from "./useSocket";
 import type { Mode } from "~/server/Poker/Mode";
 import type { UserType } from "~/server/Poker/UserType";
 import type { SupportedLinks } from "~/server/Poker/SupportedLinks";
+import { confetti } from '@tsparticles/confetti';
 
 export function usePokerSocket(roomId: string) {
     const room = ref<null | Room>(null);
@@ -18,6 +19,17 @@ export function usePokerSocket(roomId: string) {
     });
     
     onMessage('room-update', (updatedRoom: Room) => {
+        if (room.value?.reveal === false && updatedRoom.reveal === true) {
+            const roundEstimates = Object.values(updatedRoom.rounds[updatedRoom.currentRound].estimates).map(({ estimate }) => estimate);
+            const allEstimatesMatch = roundEstimates.every((estimate) => estimate === roundEstimates[0]);
+            if (allEstimatesMatch) {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                });
+            }
+        }
         room.value = updatedRoom;
     });
     onMessage('user-id', (newUserId: string) => userId.value = newUserId);
